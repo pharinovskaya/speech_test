@@ -28,9 +28,23 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     // If the audio was pre-recorded and stored in memory - SFSpeechURLRecognitionRequest instead
     private var recognitionTask: SFSpeechRecognitionTask?  // to manage, cancel, or stop the current recognition task
     
+    struct Level: Decodable {
+        var id: Int?
+        var name = ""
+        var url = ""
+    }
+    
+    struct ResponseData: Decodable {
+        var levels: [Level]
+    }
+    
+     private var levels = [Level]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        levels = generateLevels()!
+        startButton.isUserInteractionEnabled = false
         detectedTextLabel.text = ""
         answerView.isHidden = true
         requestSpeechAuthorization()
@@ -69,11 +83,27 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     @objc func fileComplete() {
         self.controller.dismiss(animated: true, completion: nil)
+        startButton.isUserInteractionEnabled = true
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    private func generateLevels() -> [Level]? {
+        if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(ResponseData.self, from: data)
+                return jsonData.levels
+            } catch {
+                print("error: \(error)")
+            }
+        }
+        return nil
+    }
+    
     
     private func stopSpeechRecognition() {
         if self.bestString == "Pink" {
@@ -121,7 +151,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
         
         recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
-            if let result = result {                
+            if let result = result {
                 self.bestString = result.bestTranscription.formattedString
                 self.detectedTextLabel.text = self.bestString
                 
