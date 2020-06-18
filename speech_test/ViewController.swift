@@ -8,10 +8,10 @@
 
 import UIKit
 import Speech
+import AVKit
 
 class ViewController: UIViewController, SFSpeechRecognizerDelegate {
 
-    @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var detectedTextLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var micImage: UIImageView!
@@ -19,6 +19,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     @IBOutlet weak var answerLabel: UILabel!
     
     private var bestString: String?
+    private let controller = AVPlayerViewController()
     
     private let audioEngine = AVAudioEngine()
     private let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
@@ -45,6 +46,33 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         detectedTextLabel.text = ""
         micImage.image = nil
         stopSpeechRecognition()
+    }
+    
+    @IBAction func play(_ sender: UIButton) {
+        guard let path = Bundle.main.path(forResource: "cat", ofType: "mp4") else {
+            return
+        }
+        let videoURL = NSURL(fileURLWithPath: path)
+
+        let player = AVPlayer(url: videoURL as URL)
+        controller.player = player
+        present(controller, animated: true) {
+            player.play()
+        }
+        
+        controller.removeFromParent()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(fileComplete),
+                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: nil)
+    }
+    
+    @objc func fileComplete() {
+        self.controller.dismiss(animated: true, completion: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func stopSpeechRecognition() {
