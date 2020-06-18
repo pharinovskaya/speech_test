@@ -85,11 +85,9 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             self.answerLabel.text = "Oops! You're wrong :("
             self.answerView.isHidden = false
         }
-        
     
         self.recognitionTask?.finish()
         self.recognitionTask = nil
-        
         
         self.request.endAudio()
         self.audioEngine.stop()
@@ -113,19 +111,17 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
         
         guard let myRecognizer = speechRecognizer else {
-            // recognizer is not support for current locale
+            print("recognizer is not support for current locale")
             return
         }
         
         if !myRecognizer.isAvailable {
-            // recognizer is not available now
+            print("recognizer is not available now")
             return
         }
         
         recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
-            if let result = result {
-                print(result.bestTranscription.segments.last?.substring)
-                
+            if let result = result {                
                 self.bestString = result.bestTranscription.formattedString
                 self.detectedTextLabel.text = self.bestString
                 
