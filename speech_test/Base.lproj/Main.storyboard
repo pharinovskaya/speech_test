@@ -68,28 +68,45 @@
                                     <constraint firstItem="B8b-WE-Kbl" firstAttribute="centerX" secondItem="Cuo-Gd-sKX" secondAttribute="centerX" id="jBF-WW-LPI"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zei-XE-0vY">
-                                <rect key="frame" x="74" y="109" width="267" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Ply"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zei-XE-0vY">
+                                <rect key="frame" x="57" y="144" width="300" height="120"/>
+                                <color key="backgroundColor" red="0.83529411760000005" green="0.95978702910958902" blue="0.83529411760000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="Vm4-xk-D6e"/>
+                                    <constraint firstAttribute="height" constant="120" id="cwT-kG-rC6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Play Video">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="play:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bYo-Kc-zPw"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Watch the video  and say what kind of animal it was" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ex-hv-QKK">
+                                <rect key="frame" x="60.5" y="64" width="293.5" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="XWq-dN-r24" firstAttribute="top" secondItem="Cuo-Gd-sKX" secondAttribute="bottom" constant="20" id="2Gk-j1-pBp"/>
+                            <constraint firstItem="6Ex-hv-QKK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="4YI-h8-AeH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XWq-dN-r24" secondAttribute="bottom" constant="40" id="5vf-6t-d4p"/>
                             <constraint firstItem="XWq-dN-r24" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="63H-2n-biZ"/>
                             <constraint firstItem="XWq-dN-r24" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="97n-Ih-2Xm"/>
                             <constraint firstItem="v2j-OG-S3a" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JTE-mw-ocL"/>
                             <constraint firstItem="yXm-Zs-IPR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LGb-7I-Spt"/>
+                            <constraint firstItem="zei-XE-0vY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Pse-JS-lxa"/>
+                            <constraint firstItem="zei-XE-0vY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="WON-Ks-hIX"/>
                             <constraint firstItem="wdg-x3-Xi1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Y06-c0-tuN"/>
                             <constraint firstItem="yXm-Zs-IPR" firstAttribute="top" secondItem="v2j-OG-S3a" secondAttribute="bottom" constant="7" id="YZX-4s-tAG"/>
                             <constraint firstItem="Cuo-Gd-sKX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ctB-xb-hgL"/>
                             <constraint firstItem="v2j-OG-S3a" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-24.5" id="dqx-7E-2SF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XWq-dN-r24" secondAttribute="trailing" constant="50" id="fgd-nO-e3X"/>
+                            <constraint firstItem="6Ex-hv-QKK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kel-h5-cwX"/>
                             <constraint firstItem="XWq-dN-r24" firstAttribute="top" secondItem="wdg-x3-Xi1" secondAttribute="bottom" constant="20" id="tWi-JB-U6J"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

@@ -38,8 +38,8 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         var levels: [Level]
     }
     
-     private var levels = [Level]()
-    
+    private var levels = [Level]()
+    private var currentLevel = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +63,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     }
     
     @IBAction func play(_ sender: UIButton) {
-        guard let path = Bundle.main.path(forResource: "cat", ofType: "mp4") else {
+        guard let path = Bundle.main.path(forResource: levels[currentLevel].url, ofType: "mp4") else {
             return
         }
         let videoURL = NSURL(fileURLWithPath: path)
@@ -106,10 +106,13 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     
     private func stopSpeechRecognition() {
-        if self.bestString == "Pink" {
+        if self.bestString == levels[currentLevel].name {
             self.answerView.isHidden = false
             self.answerView.backgroundColor = UIColor.green
             self.answerLabel.text = "Correct!"
+            if currentLevel <= 1 {
+                currentLevel += 1
+            }
         } else {
             self.answerView.backgroundColor = UIColor.red
             self.answerLabel.text = "Oops! You're wrong :("
