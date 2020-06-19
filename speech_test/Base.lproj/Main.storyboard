@@ -39,7 +39,7 @@
                                 </state>
                                 <connections>
                                     <action selector="buttonIsPressing:" destination="BYZ-38-t0r" eventType="touchDown" id="dIN-6z-X35"/>
-                                    <action selector="strartButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2dC-AN-5Gb"/>
+                                    <action selector="cancelRecording:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2dC-AN-5Gb"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wdg-x3-Xi1">

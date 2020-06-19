@@ -21,7 +21,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     private var bestString: String?
     private let controller = AVPlayerViewController()
     
-    private let audioEngine = AVAudioEngine()
+    private var audioEngine = AVAudioEngine()
     private let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
     // let speechRecognizer: SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
     private let request = SFSpeechAudioBufferRecognitionRequest()
@@ -44,7 +44,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         levels = generateLevels()!
-        startButton.isUserInteractionEnabled = false
+//        startButton.isUserInteractionEnabled = false
         detectedTextLabel.text = ""
         answerView.isHidden = true
         requestSpeechAuthorization()
@@ -56,7 +56,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         micImage.image = UIImage(named: "micro")
     }
     
-    @IBAction func strartButtonPressed(_ sender: UIButton) {
+    @IBAction func cancelRecording(_ sender: UIButton) {
         detectedTextLabel.text = ""
         micImage.image = nil
         stopSpeechRecognition()
@@ -106,25 +106,13 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     
     private func stopSpeechRecognition() {
-        if self.bestString == levels[currentLevel].name {
-            self.answerView.isHidden = false
-            self.answerView.backgroundColor = UIColor.green
-            self.answerLabel.text = "Correct!"
-            if currentLevel <= 1 {
-                currentLevel += 1
-            }
-        } else {
-            self.answerView.backgroundColor = UIColor.red
-            self.answerLabel.text = "Oops! You're wrong :("
-            self.answerView.isHidden = false
-        }
-    
         self.recognitionTask?.finish()
         self.recognitionTask = nil
         
         self.request.endAudio()
         self.audioEngine.stop()
         self.audioEngine.inputNode.removeTap(onBus: 0)
+        self.audioEngine = AVAudioEngine()
         
     }
     
@@ -157,6 +145,19 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             if let result = result {
                 self.bestString = result.bestTranscription.formattedString
                 self.detectedTextLabel.text = self.bestString
+                
+                if self.bestString == self.levels[self.currentLevel].name {
+                    self.answerView.isHidden = false
+                    self.answerView.backgroundColor = UIColor.green
+                    self.answerLabel.text = "Correct!"
+                    if self.currentLevel <= 1 {
+                        self.currentLevel += 1
+                    }
+                } else {
+                    self.answerView.backgroundColor = UIColor.red
+                    self.answerLabel.text = "Oops! You're wrong :("
+                    self.answerView.isHidden = false
+                }
                 
             } else if let error = error {
                 print(error)
