@@ -19,6 +19,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     @IBOutlet weak var answerLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    // MARK: -Video and Speech vars
     private var bestString: String?
     private let controller = AVPlayerViewController()
     
@@ -29,6 +30,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     // If the audio was pre-recorded and stored in memory - SFSpeechURLRecognitionRequest instead
     private var recognitionTask: SFSpeechRecognitionTask?  // to manage, cancel, or stop the current recognition task
     
+    // MARK: -Data
     struct Level: Decodable {
         var id: Int?
         var name = ""
@@ -42,6 +44,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     private var levels = [Level]()
     private var currentLevel = 0
     
+    // MARK: -Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         levels = generateLevels()!
@@ -54,6 +57,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         
     }
     
+    // MARK: -IBActions
     @IBAction func buttonIsPressing(_ sender: UIButton) {
         recordAndRecognizeSpeech()
         answerView.isHidden = true
@@ -66,8 +70,24 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         stopSpeechRecognition()
     }
     
-    @IBAction func play(_ sender: UIButton) {
-        guard let path = Bundle.main.path(forResource: levels[currentLevel].url, ofType: "mp4") else {
+    // MARK: -Generate Levels
+    private func generateLevels() -> [Level]? {
+        if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(ResponseData.self, from: data)
+                return jsonData.levels
+            } catch {
+                print("error: \(error)")
+            }
+        }
+        return nil
+    }
+    
+    // MARK: -Video player
+    private func playVideo(_ selectedLevel: Int) {
+        guard let path = Bundle.main.path(forResource: levels[selectedLevel].url, ofType: "mp4") else {
             return
         }
         let videoURL = NSURL(fileURLWithPath: path)
@@ -94,21 +114,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         NotificationCenter.default.removeObserver(self)
     }
     
-    private func generateLevels() -> [Level]? {
-        if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                let jsonData = try decoder.decode(ResponseData.self, from: data)
-                return jsonData.levels
-            } catch {
-                print("error: \(error)")
-            }
-        }
-        return nil
-    }
-    
-    
+    // MARK: -Speech recognition
     private func stopSpeechRecognition() {
         self.recognitionTask?.finish()
         self.recognitionTask = nil
@@ -168,7 +174,6 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         })
     }
 
-
     private func requestSpeechAuthorization() {
         SFSpeechRecognizer.requestAuthorization { authStatus in
             OperationQueue.main.addOperation {
@@ -191,7 +196,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
 }
-
+ // MARK: -TableView extension
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return levels.count
@@ -211,7 +216,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row <= currentLevel {
-            print("OK")
+            playVideo(indexPath.row)
         } else {
             let alert = UIAlertController(title: "Oops.. Level is not available", message: "Please complete the previous level", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
@@ -222,6 +227,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: -TableViewCell extension
 extension UITableViewCell {
     class func registerCellNib(_ nibName: String? = nil,
                               bundle bundleOrNil: Bundle? = nil,
