@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		69F86120B1299E3EB935E5B4 /* Pods_speech_test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C717018BB1741551AE5D0D06 /* Pods_speech_test.framework */; };
+		CE05C0B824A00B1100F58CDF /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE05C0B624A00B1100F58CDF /* TableViewCell.swift */; };
+		CE05C0B924A00B1100F58CDF /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE05C0B724A00B1100F58CDF /* TableViewCell.xib */; };
 		CE3FFF58249A5C7D005D45F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FFF57249A5C7D005D45F1 /* AppDelegate.swift */; };
 		CE3FFF5A249A5C7D005D45F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FFF59249A5C7D005D45F1 /* SceneDelegate.swift */; };
 		CE3FFF5C249A5C7D005D45F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FFF5B249A5C7D005D45F1 /* ViewController.swift */; };
@@ -23,6 +25,8 @@
 /* Begin PBXFileReference section */
 		52ECD812F55795A4083CBBFF /* Pods-speech_test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-speech_test.release.xcconfig"; path = "Target Support Files/Pods-speech_test/Pods-speech_test.release.xcconfig"; sourceTree = "<group>"; };
 		C717018BB1741551AE5D0D06 /* Pods_speech_test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_speech_test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE05C0B624A00B1100F58CDF /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		CE05C0B724A00B1100F58CDF /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		CE1F0296E0341895A7AD555B /* Pods-speech_test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-speech_test.debug.xcconfig"; path = "Target Support Files/Pods-speech_test/Pods-speech_test.debug.xcconfig"; sourceTree = "<group>"; };
 		CE3FFF54249A5C7D005D45F1 /* speech_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = speech_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE3FFF57249A5C7D005D45F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +71,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CE05C0B524A00AE600F58CDF /* AnimalTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				CE05C0B624A00B1100F58CDF /* TableViewCell.swift */,
+				CE05C0B724A00B1100F58CDF /* TableViewCell.xib */,
+			);
+			path = AnimalTableViewCell;
+			sourceTree = "<group>";
+		};
 		CE3FFF4B249A5C7D005D45F1 = {
 			isa = PBXGroup;
 			children = (
@@ -88,12 +101,13 @@
 		CE3FFF56249A5C7D005D45F1 /* speech_test */ = {
 			isa = PBXGroup;
 			children = (
-				CE3FFF57249A5C7D005D45F1 /* AppDelegate.swift */,
-				CE3FFF59249A5C7D005D45F1 /* SceneDelegate.swift */,
-				CE3FFF5B249A5C7D005D45F1 /* ViewController.swift */,
 				CE3FFF5D249A5C7D005D45F1 /* Main.storyboard */,
+				CE3FFF5B249A5C7D005D45F1 /* ViewController.swift */,
+				CE05C0B524A00AE600F58CDF /* AnimalTableViewCell */,
 				CE3FFF60249A5C7F005D45F1 /* Assets.xcassets */,
 				CEB49363249B75420045C925 /* videos */,
+				CE3FFF59249A5C7D005D45F1 /* SceneDelegate.swift */,
+				CE3FFF57249A5C7D005D45F1 /* AppDelegate.swift */,
 				CE3FFF62249A5C7F005D45F1 /* LaunchScreen.storyboard */,
 				CE3FFF65249A5C7F005D45F1 /* Info.plist */,
 				CEB4936A249B7B490045C925 /* data.json */,
@@ -175,6 +189,7 @@
 				CEB49367249B75580045C925 /* monkey.mp4 in Resources */,
 				CE3FFF64249A5C7F005D45F1 /* LaunchScreen.storyboard in Resources */,
 				CE3FFF61249A5C7F005D45F1 /* Assets.xcassets in Resources */,
+				CE05C0B924A00B1100F58CDF /* TableViewCell.xib in Resources */,
 				CEB49368249B75580045C925 /* bird.mp4 in Resources */,
 				CE3FFF5F249A5C7D005D45F1 /* Main.storyboard in Resources */,
 			);
@@ -213,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3FFF5C249A5C7D005D45F1 /* ViewController.swift in Sources */,
+				CE05C0B824A00B1100F58CDF /* TableViewCell.swift in Sources */,
 				CE3FFF58249A5C7D005D45F1 /* AppDelegate.swift in Sources */,
 				CE3FFF5A249A5C7D005D45F1 /* SceneDelegate.swift in Sources */,
 			);

@@ -17,6 +17,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     @IBOutlet weak var micImage: UIImageView!
     @IBOutlet weak var answerView: UIView!
     @IBOutlet weak var answerLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
     private var bestString: String?
     private let controller = AVPlayerViewController()
@@ -44,10 +45,13 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         levels = generateLevels()!
-//        startButton.isUserInteractionEnabled = false
+        startButton.isUserInteractionEnabled = false
         detectedTextLabel.text = ""
         answerView.isHidden = true
         requestSpeechAuthorization()
+        
+        TableViewCell.registerCellNib(in: self.tableView)
+        
     }
     
     @IBAction func buttonIsPressing(_ sender: UIButton) {
@@ -188,3 +192,52 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     }
 }
 
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return levels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = TableViewCell.dequeueReusableCell(in: tableView, for: indexPath)
+        if indexPath.row > currentLevel {
+            cell.animalButton.backgroundColor = UIColor.lightGray
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row <= currentLevel {
+            print("OK")
+        } else {
+            let alert = UIAlertController(title: "Oops.. Level is not available", message: "Please complete the previous level", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    
+}
+
+extension UITableViewCell {
+    class func registerCellNib(_ nibName: String? = nil,
+                              bundle bundleOrNil: Bundle? = nil,
+                              forCellReuseIdentifier identifier: String? = nil,
+                              in tableView: UITableView) {
+       
+    let nib = UINib(nibName: nibName ?? String(describing: self), bundle: bundleOrNil)
+    tableView.register(nib, forCellReuseIdentifier: identifier ?? String(describing: self))
+   }
+    
+    class func dequeueReusableCell(in tableView: UITableView, for indexPath: IndexPath, reuseIdentifier identifier: String? = nil) -> Self {
+        return dequeueReusableCellPrivate(in: tableView, for: indexPath, reuseIdentifier: identifier ?? String(describing: self))
+    }
+    
+    private class func dequeueReusableCellPrivate<T>(in tableView: UITableView, for indexPath: IndexPath, reuseIdentifier: String) -> T {
+           let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+           return cell as! T
+       }
+}
