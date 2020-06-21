@@ -21,7 +21,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     private var bestString: String?
     private let controller = AVPlayerViewController()
     
-    private var audioEngine = AVAudioEngine()
+    private var audioEngine: AVAudioEngine?
     private let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
     // let speechRecognizer: SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
     private let request = SFSpeechAudioBufferRecognitionRequest()
@@ -110,23 +110,22 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         self.recognitionTask = nil
         
         self.request.endAudio()
-        self.audioEngine.stop()
-        self.audioEngine.inputNode.removeTap(onBus: 0)
-        self.audioEngine = AVAudioEngine()
-        
+        self.audioEngine?.stop()
+        self.audioEngine?.inputNode.removeTap(onBus: 0)
     }
     
     private func recordAndRecognizeSpeech() {
-        let node = audioEngine.inputNode
+        audioEngine = AVAudioEngine()
+        let node = audioEngine?.inputNode
         let outputBus = 0
-        let recordingFormat = node.outputFormat(forBus: outputBus)
+        let recordingFormat = node?.outputFormat(forBus: outputBus)
         
-        node.installTap(onBus: outputBus, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
+        node?.installTap(onBus: outputBus, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
             self.request.append(buffer)
         }
         
         do {
-            try audioEngine.start()
+            try audioEngine?.start()
         } catch  {
             return print(error)
         }

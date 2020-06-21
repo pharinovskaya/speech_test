@@ -1,19 +1,19 @@
 {
-    "levels": [
-  {
-    "id": 0,
-    "name": "Hello",
-    "url": "bird"
-  },
-  {
-    "id": 1,
-    "name": "Cat",
-    "url": "cat"
-  },
-  {
-    "id": 2,
-    "name": "Monkey",
-    "url": "monkey"
-  }
-]
+        "levels": [
+      {
+        "id": 0,
+        "name": "Hello",
+        "url": "bird"
+      },
+      {
+        "id": 1,
+        "name": "Cat",
+        "url": "cat"
+      },
+      {
+        "id": 2,
+        "name": "Monkey",
+        "url": "monkey"
+      }
+    ]
 }
