@@ -44,6 +44,8 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     private var levels = [Level]()
     private var currentLevel = 0
     
+    private var animals = ["Animal ???", "Animal ???", "Animal ???"]
+    
     // MARK: -Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,8 +87,8 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     // MARK: -UI
     private func setupUI(_ speeking: Bool) {
-        answerView.isHidden = speeking
         if speeking {
+            answerView.isHidden = speeking
             micImage.image = UIImage(named: "micro")
         } else
         {
@@ -96,13 +98,14 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     }
     
     private func setupAnswerUI(_ isCorrect: Bool) {
+        answerView.isHidden = false
         if isCorrect {
             self.answerView.backgroundColor = UIColor.green
-             self.answerLabel.text = "Oops! You're wrong :("
+            self.answerLabel.text = "Correct!"
         }
         else {
             self.answerView.backgroundColor = UIColor.red
-            self.answerLabel.text = "Correct!"
+            self.answerLabel.text = "Oops! You're wrong :("
         }
         tableView.reloadData()
     }
@@ -185,6 +188,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
                 self.detectedTextLabel.text = self.bestString
                                 
                 if self.bestString == self.levels[self.currentLevel].name {
+                    self.animals[self.currentLevel] = self.levels[self.currentLevel].name
                     self.setupAnswerUI(true)
                     if self.currentLevel <= 1 {
                         self.currentLevel += 1
@@ -233,6 +237,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = TableViewCell.dequeueReusableCell(in: tableView, for: indexPath)
         cell.animalButton.backgroundColor = indexPath.row > currentLevel ? UIColor.lightGray : UIColor.green
+        cell.animalLabel.text = animals[indexPath.row]
         
         return cell
     }
