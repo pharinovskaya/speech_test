@@ -50,11 +50,13 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         levels = generateLevels()!
         detectedTextLabel.text = ""
         answerView.isHidden = true
+        
+        configureAudioSession()
         requestSpeechAuthorization()
         
         TableViewCell.registerCellNib(in: self.tableView)
     }
-    
+   
     // MARK: -IBActions
     @IBAction func buttonIsPressing(_ sender: UIButton) {
         recordAndRecognizeSpeech()
@@ -94,8 +96,15 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     }
     
     private func setupAnswerUI(_ isCorrect: Bool) {
-        self.answerView.backgroundColor = isCorrect ? UIColor.green : UIColor.red
-        self.answerLabel.text = isCorrect ? "Correct!" : "Oops! You're wrong :("
+        if isCorrect {
+            self.answerView.backgroundColor = UIColor.green
+             self.answerLabel.text = "Oops! You're wrong :("
+        }
+        else {
+            self.answerView.backgroundColor = UIColor.red
+            self.answerLabel.text = "Correct!"
+        }
+        tableView.reloadData()
     }
     
     // MARK: -Video player
@@ -128,6 +137,13 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     }
     
     // MARK: -Speech recognition
+    private func configureAudioSession() {
+        do {
+            try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, options: .mixWithOthers)
+            try? AVAudioSession.sharedInstance().setActive(true)
+        } catch { }
+    }
+    
     private func stopSpeechRecognition() {
         self.recognitionTask?.finish()
         self.recognitionTask = nil
@@ -167,13 +183,15 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             if let result = result {
                 self.bestString = result.bestTranscription.formattedString
                 self.detectedTextLabel.text = self.bestString
-                
-                self.setupAnswerUI(self.bestString == self.levels[self.currentLevel].name)
-                
+                                
                 if self.bestString == self.levels[self.currentLevel].name {
+                    self.setupAnswerUI(true)
                     if self.currentLevel <= 1 {
                         self.currentLevel += 1
                     }
+                }
+                else {
+                    self.setupAnswerUI(false)
                 }
                 
             } else if let error = error {
@@ -214,9 +232,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = TableViewCell.dequeueReusableCell(in: tableView, for: indexPath)
-        if indexPath.row > currentLevel {
-            cell.animalButton.backgroundColor = UIColor.lightGray
-        }
+        cell.animalButton.backgroundColor = indexPath.row > currentLevel ? UIColor.lightGray : UIColor.green
+        
         return cell
     }
     
@@ -233,8 +250,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
-    
 }
 
 // MARK: -TableViewCell extension
