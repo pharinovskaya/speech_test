@@ -18,6 +18,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     @IBOutlet weak var answerView: UIView!
     @IBOutlet weak var answerLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var questionView: UIView!
     
     // MARK: -Video and Speech vars
     private var bestString: String?
@@ -49,9 +50,9 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     // MARK: -Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupDefaultUI()
+    
         levels = generateLevels()!
-        detectedTextLabel.text = ""
-        answerView.isHidden = true
         
         configureAudioSession()
         requestSpeechAuthorization()
@@ -102,12 +103,32 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         if isCorrect {
             self.answerView.backgroundColor = UIColor.green
             self.answerLabel.text = "Correct!"
+            questionView.isHidden = false
+            
+            if currentLevel != levels.count-1 {
+                let alert = UIAlertController(title: "Yees! Keep her steady!", message: "Do you want complete one more level?", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Watch video", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
+                    self.playVideo(self.currentLevel)
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else {
+                let alert = UIAlertController(title: "Wow! Well done!", message: "Category completed!", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            }
         }
         else {
             self.answerView.backgroundColor = UIColor.red
             self.answerLabel.text = "Oops! You're wrong :("
         }
         tableView.reloadData()
+    }
+    
+    private func setupDefaultUI() {
+        detectedTextLabel.text = ""
+        answerView.isHidden = true
+        questionView.isHidden = true
     }
     
     // MARK: -Video player
@@ -133,6 +154,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     @objc func fileComplete() {
         self.controller.dismiss(animated: true, completion: nil)
         startButton.isUserInteractionEnabled = true
+        questionView.isHidden = false
     }
 
     deinit {

@@ -32,12 +32,23 @@
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <state key="normal" title="Watch Video"/>
                     </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fsq-Ua-dbO">
+                        <rect key="frame" x="0.0" y="114" width="413" height="2"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="l6Y-q9-gPl"/>
+                        </constraints>
+                    </view>
                 </subviews>
+                <color key="backgroundColor" red="0.98039215690000003" green="0.97647058819999999" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
                     <constraint firstItem="ZxR-Ad-7NV" firstAttribute="top" secondItem="SKD-zZ-392" secondAttribute="bottom" constant="12" id="7BM-fs-j0P"/>
                     <constraint firstItem="SKD-zZ-392" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Jhe-hb-FHt"/>
+                    <constraint firstAttribute="bottom" secondItem="fsq-Ua-dbO" secondAttribute="bottom" id="RCB-Hi-aGK"/>
                     <constraint firstItem="SKD-zZ-392" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="22" id="SZt-ZO-Fjd"/>
                     <constraint firstItem="ZxR-Ad-7NV" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="TzH-Jm-mX4"/>
+                    <constraint firstItem="fsq-Ua-dbO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="UVH-8G-0JH"/>
+                    <constraint firstAttribute="trailing" secondItem="fsq-Ua-dbO" secondAttribute="trailing" id="eh3-4d-xcg"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -45,7 +56,7 @@
                 <outlet property="animalButton" destination="ZxR-Ad-7NV" id="bpY-hn-JfQ"/>
                 <outlet property="animalLabel" destination="SKD-zZ-392" id="OOG-qV-Crj"/>
             </connections>
-            <point key="canvasLocation" x="63" y="-103"/>
+            <point key="canvasLocation" x="61.594202898550726" y="-103.125"/>
         </tableViewCell>
     </objects>
 </document>
