@@ -48,25 +48,21 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         levels = generateLevels()!
-        startButton.isUserInteractionEnabled = false
         detectedTextLabel.text = ""
         answerView.isHidden = true
         requestSpeechAuthorization()
         
         TableViewCell.registerCellNib(in: self.tableView)
-        
     }
     
     // MARK: -IBActions
     @IBAction func buttonIsPressing(_ sender: UIButton) {
         recordAndRecognizeSpeech()
-        answerView.isHidden = true
-        micImage.image = UIImage(named: "micro")
+        setupUI(true)
     }
     
     @IBAction func cancelRecording(_ sender: UIButton) {
-        detectedTextLabel.text = ""
-        micImage.image = nil
+        setupUI(false)
         stopSpeechRecognition()
     }
     
@@ -83,6 +79,23 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             }
         }
         return nil
+    }
+    
+    // MARK: -UI
+    private func setupUI(_ speeking: Bool) {
+        answerView.isHidden = speeking
+        if speeking {
+            micImage.image = UIImage(named: "micro")
+        } else
+        {
+            detectedTextLabel.text = ""
+            micImage.image = nil
+        }
+    }
+    
+    private func setupAnswerUI(_ isCorrect: Bool) {
+        self.answerView.backgroundColor = isCorrect ? UIColor.green : UIColor.red
+        self.answerLabel.text = isCorrect ? "Correct!" : "Oops! You're wrong :("
     }
     
     // MARK: -Video player
@@ -155,17 +168,12 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
                 self.bestString = result.bestTranscription.formattedString
                 self.detectedTextLabel.text = self.bestString
                 
+                self.setupAnswerUI(self.bestString == self.levels[self.currentLevel].name)
+                
                 if self.bestString == self.levels[self.currentLevel].name {
-                    self.answerView.isHidden = false
-                    self.answerView.backgroundColor = UIColor.green
-                    self.answerLabel.text = "Correct!"
                     if self.currentLevel <= 1 {
                         self.currentLevel += 1
                     }
-                } else {
-                    self.answerView.backgroundColor = UIColor.red
-                    self.answerLabel.text = "Oops! You're wrong :("
-                    self.answerView.isHidden = false
                 }
                 
             } else if let error = error {
@@ -174,6 +182,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         })
     }
 
+    // MARK: -Recognition request
     private func requestSpeechAuthorization() {
         SFSpeechRecognizer.requestAuthorization { authStatus in
             OperationQueue.main.addOperation {
@@ -196,6 +205,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
 }
+
  // MARK: -TableView extension
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
