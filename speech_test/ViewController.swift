@@ -212,6 +212,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
                 self.detectedTextLabel.text = self.bestString
                                 
                 if self.bestString == self.levels[self.currentLevel].name {
+                    self.currentAttempt = 0
                     self.animals[self.currentLevel] = self.levels[self.currentLevel].name
                     self.setupAnswerUI(true)
                     if self.currentLevel <= 1 {
