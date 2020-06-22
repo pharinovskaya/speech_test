@@ -44,6 +44,8 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     private var levels = [Level]()
     private var currentLevel = 0
+    private var attemptsNumber = 5
+    private var currentAttempt = 0
     
     private var animals = ["Animal ???", "Animal ???", "Animal ???"]
     
@@ -217,6 +219,16 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
                     }
                 }
                 else {
+                    self.currentAttempt += 1
+                    guard self.currentAttempt <= self.attemptsNumber else {
+                        let alert = UIAlertController(title: "Oh, we don't understand you ;(", message: "Do you want watch video one more time?", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "Watch video", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
+                            self.playVideo(self.currentLevel)
+                        }))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
                     self.setupAnswerUI(false)
                 }
                 
