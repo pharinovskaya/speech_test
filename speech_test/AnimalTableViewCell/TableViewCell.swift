@@ -11,6 +11,7 @@ import UIKit
 class TableViewCell: UITableViewCell {
     @IBOutlet weak var animalLabel: UILabel!
     @IBOutlet weak var animalButton: UIButton!
+    @IBOutlet weak var checkImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

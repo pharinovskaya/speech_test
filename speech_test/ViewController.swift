@@ -258,8 +258,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = TableViewCell.dequeueReusableCell(in: tableView, for: indexPath)
+        
         cell.animalButton.backgroundColor = indexPath.row > currentLevel ? UIColor.lightGray : UIColor.green
+        cell.checkImage.isHidden = indexPath.row >= currentLevel
         cell.animalLabel.text = animals[indexPath.row]
+        cell.animalButton.setTitle("Watch video", for: .normal)
+        
+        if indexPath.row < currentLevel {
+            cell.animalButton.setTitle("Start over from this level", for: .normal)
+            cell.animalButton.backgroundColor = UIColor.blue
+        }
         
         return cell
     }
@@ -270,7 +278,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row <= currentLevel {
-            playVideo(indexPath.row)
+            if indexPath.row == currentLevel {
+                playVideo(indexPath.row)
+            } else {
+                playVideo(indexPath.row)
+                currentLevel = indexPath.row
+                tableView.reloadData()
+            }
+            
         } else {
             let alert = UIAlertController(title: "Oops.. Level is not available", message: "Please complete the previous level", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
